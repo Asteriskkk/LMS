@@ -1,0 +1,63 @@
+
+    <div class="alert alert-info" *ngIf="(history | async)?.length==0">
+        <h4> <strong>No&nbsp;</strong>Leaves&nbsp;Found. </h4>
+      </div>
+<div *ngIf="(history | async)?.length>0">
+<table border="1" class="table">
+  <tr class="thead-dark">
+    <th>Leave ID</th>
+    <th>Emp ID</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>No Of Days</th>
+    <th>Leave Type</th>
+    <th>Leave Status</th>
+    <th>Leave Reason</th> 
+    <th>Applied On</th>
+    <th>Manager Comment</th>
+  </tr>
+
+  <tr *ngFor="let x of history | async " (click)="clickRow(x)" style="background-color:aliceblue">
+    
+    <td>
+       {{x.leaveId}}
+    </td>
+    <td>
+      {{x.empId}}
+    </td>
+    <td>
+      {{x.leaveSdate}}
+    </td>
+    <td>
+      {{x.leaveEdate}}
+    </td>
+    <td>
+      {{x.leaveNdays}}
+    </td>
+    <td>
+      {{x.leaveType}}
+    </td>
+    <td>
+      {{x.leaveStatus}}
+    </td>
+    <td>
+      {{x.leaveReason}}
+    </td> 
+    <td>
+      {{x.leaveAppliedOn}}
+    </td> 
+    <td>
+      {{x.leaveManagerComm}}
+    </td> 
+  </tr>
+
+  
+</table> 
+<!-- <div align="center" *ngIf="showButton">
+    <button type="button"  (click) = "clickRow()" class="btn btn-outline-success pull-right">Edit</button>
+  </div> -->
+</div>
+<div>
+  <button class="btn btn-success pull-right" [routerLink] = "['/applyleave']">New Application</button>
+</div>
+

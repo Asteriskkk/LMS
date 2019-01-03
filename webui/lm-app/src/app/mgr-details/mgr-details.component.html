@@ -1,0 +1,15 @@
+
+  <div class="col-lg-12" *ngIf="empid!=0">
+<p><b>Emp Id :</b> {{ (mgr  | async)?.empId }}</p>
+<p><b>Name : </b>{{ (mgr  | async)?.empFullName }}</p>
+<p><b>Email : </b>{{ (mgr  | async)?.mobNumber }}</p>
+<p><b>Mob No :</b> {{ (mgr  | async)?.emailId }}</p>
+
+  </div>
+ 
+  <div class="col-lg-12" class="alert alert-danger" *ngIf="empid==0">
+    <strong>No Manger !</strong> 
+  </div>
+
+
+

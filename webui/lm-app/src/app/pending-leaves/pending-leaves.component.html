@@ -1,0 +1,147 @@
+<form [formGroup]="myForm" (ngSubmit)="ofFormSubmit(myForm)">
+<div *ngFor="let e of emps | async">
+<ng-container *ngIf="e.mgrId==flagp">
+  <div class="row" style="border:1px solid;background:black;" >
+    <div class="col-lg-4" style="color:white"><p>Employee Id :{{e.empId}}</p></div>
+    <div class="col-lg-4" style="color:white"><p>Employee Name :{{e.empFullName}}</p></div>
+    <div class="col-lg-4" style="color:white"><p>Employee Leave Balance :{{e.availableLeave}}</p></div>
+  </div>
+<table class="table" border="1">
+<tr> <th>LeaveId</th>
+    <th>EmpNo</th>
+    <th>Start-Date</th>
+    <th>End-Date</th>
+    <th>Days</th>
+    <th>Leave Type</th>
+    <th>Status</th>
+    <th>Reason</th> 
+    <th>Applied On</th>
+    <th>Comment</th>
+</tr>
+<tr *ngFor="let x of pending | async" (click)="clickRow(x,e)" style="background-color:aliceblue">
+    <ng-container *ngIf="e.empId==x.empId">
+        <td>{{x.leaveId}}</td>
+        <td>{{x.empId}}</td>
+        <td>
+          {{x.leaveSdate}}
+        </td>
+        <td>
+          {{x.leaveEdate}}
+        </td>
+        <td>
+          {{x.leaveNdays}}
+        </td>
+        <td>
+          {{x.leaveType}}
+        </td>
+        <td>
+          {{x.leaveStatus}}
+        </td>
+        <td>
+          {{x.leaveReason}}
+        </td> 
+        <td>
+          {{x.leaveAppliedOn}}
+        </td> 
+        <td>
+          {{x.leaveManagerComm}}
+        </td> 
+        <td>
+          <label class="custom-control custom-checkbox">
+              <input  type="checkbox" (change)="onChange(x.leaveId, $event.target.checked)" class="custom-control-input">
+              <span class="custom-control-indicator"></span>
+          </label>
+        </td>
+        
+      </ng-container>
+</tr>
+</table>
+
+</ng-container>
+</div>
+    <div *ngIf="buttonallshow">    
+      <button type="button" class="btn btn-outline-danger pull-right " (click)="allApprove()">Approve All</button>
+    </div>
+    <!-- <div *ngIf="!buttonallshow">
+      <button type="button" class="btn btn-outline-success pull-right disabled" (click)="allApprove()">Approve All</button>      
+    </div> -->
+
+<div align="center" *ngIf="showButton">
+    <button type="button" onclick="document.getElementById('id01').style.display='block'" class="btn btn-outline-danger pull-right">Approve/Deny</button>
+  </div>
+       <!-- <div align="center" *ngIf="!showButton">
+          <button type="button" class="btn btn-outline-success pull-right disabled">Approve/Deny</button>
+       </div> -->
+
+       </form>
+       <div class="alert alert-success" *ngIf="msg">
+        <strong><h3>Success!</h3></strong><h4>{{this.msg}}.</h4>
+        </div>
+
+
+
+ 
+ <div id="id01" class="modal">
+   <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+   <div class="modal-content" >
+     <div class="container">
+      <div class="row">
+        <div class="col-md-6"> <h4> <b>Employ Name :</b>  {{ (aempData  | async)?.empFullName }}</h4></div>
+          <div class="col-md-6">   <h4><b>   Leave Balance :</b>  {{ (aempData  | async)?.availableLeave }}</h4>
+            
+        </div>
+      </div>
+      <br>
+      <div class="row">
+          <div class="col-md-6">        <h4> <b>  StartDate :</b>  {{ (aleaveData  | async)?.leaveSdate }}</h4></div>
+            <div class="col-md-6">        <h4> <b>  EndDate : </b> {{ (aleaveData  | async)?.leaveEdate }}</h4>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">        <h4> <b> LeaveType :</b>  {{ (aleaveData  | async)?.leaveType }}</h4> </div>
+              <div class="col-md-6">          <h4> <b>  No Of Days :</b>  {{ (aleaveData  | async)?.leaveNdays }}</h4>
+                
+            </div>
+          </div>
+          <br>
+
+
+       <h4><b> Reason :</b>  {{ (aleaveData  | async)?.leaveReason }}</h4><br><br>
+
+        <form #userForm="ngForm" (ngSubmit)="reject(userForm)">
+            <div class= "form-group">
+              <label for= "leaveManagerComm"><b><font size="4">Comment:</font> </b></label>&nbsp;&nbsp;&nbsp;
+              <textarea style="font-size:5" class= "form-control" size="20"
+              id = "leaveManagerComm" required="required"
+              [(ngModel)]= "ld.leaveManagerComm" name="leaveManagerComm" #leaveReason="ngModel">
+              </textarea>
+              <div *ngIf="leaveReason.invalid && userForm.submitted && !isValidFormSubmitted"  [ngClass] = "'error'"> 
+                <h3 style="color:red">Comment is Required.</h3> 
+                    </div>
+            </div>
+            <div class="alert alert-info" *ngIf="msg">
+                <h4> <strong> Result : {{msg}} </strong> </h4>
+              </div>
+       <div class="text-center " >
+         <button (click)="reject()" class="cancelbtn"><h4>DECLINE</h4></button>
+       </div> 
+   </form>
+   <div >
+      <button (click)="approve()" class="signupbtn"><h4>APPROVE</h4></button>
+    </div> 
+
+  
+ </div>
+</div>
+ <script>
+ // Get the modal
+ var modal = document.getElementById('id01');
+ 
+ // When the user clicks anywhere outside of the modal, close it
+ window.onclick = function(event) {
+   if (event.target == modal) {
+     modal.style.display = "none";
+   }
+ }
+ </script>

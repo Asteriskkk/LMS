@@ -1,0 +1,30 @@
+  Employ ID :  {{ (empData  | async)?.empId }}    <br><br>
+  Employ Name :  {{ (empData  | async)?.empFullName }}<br><br>
+  Leave Balance : {{ (empData  | async)?.availableLeave }}<br><br>
+
+  StartDate : {{ (leaveData  | async)?.leaveSdate }}<br><br>
+  EndDate : {{ (leaveData  | async)?.leaveEdate }}<br><br>
+  LeaveType : {{ (leaveData  | async)?.leaveType }}<br><br>  
+  No Of Days : {{ (leaveData  | async)?.leaveNdays }}<br><br>
+  Reason : {{ (leaveData  | async)?.leaveReason }}<br><br>
+  <form #userForm="ngForm" (ngSubmit)="reject(userForm)">
+  <div class= "form-group">
+    <label for= "leaveManagerComm"><b><font size="4">Comment:</font> </b></label>&nbsp;&nbsp;&nbsp;
+    <textarea class= "form-control" size="30"
+    id = "leaveManagerComm" required="required"
+    [(ngModel)]= "ld.leaveManagerComm" name="leaveManagerComm" #leaveReason="ngModel">
+    </textarea>
+    <div *ngIf="leaveReason.invalid && userForm.submitted && !isValidFormSubmitted"  [ngClass] = "'error'"> 
+      <h3 style="color:red">Comment is Required.</h3> 
+          </div>
+  </div>
+  <button (click)="reject()">Deny </button>&nbsp;&nbsp;
+  <button (click)="approve()">Approve</button>&nbsp;&nbsp;
+  <button (click)="cancel()">cancel</button>&nbsp;&nbsp;
+</form>
+
+
+
+Result : {{msg}}
+
+
